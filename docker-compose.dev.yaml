@@ -7,7 +7,7 @@ services:
       - 5000:5000
     volumes:
       - ./:/usr/src/six-city-backend
-    command: sh -c "npm i && npm run migration:run && npm start"
+    command: sh -c "npm install && npm start"
     networks:
       - six-city-network
 
