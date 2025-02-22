@@ -17,7 +17,7 @@ services:
     ports:
       - ${PORT}:${PORT}
     volumes:
-      - ./:/usr/src/six-city-backend
+      - database:/usr/src/six-city-backend
     command: sh -c "npm install && npm start && npm migration:run"
     networks:
       - six-city-network
@@ -33,7 +33,7 @@ services:
     ports:
       - '8000:80'
     volumes:
-      - pgadmin_local:/var/lib/pgadmin
+      - pgadmin:/var/lib/pgadmin
     restart: always
     networks:
       - six-city-network
@@ -42,6 +42,7 @@ services:
 
 volumes:
   database:
+  pgadmin:
 
 networks:
   six-city-network:
