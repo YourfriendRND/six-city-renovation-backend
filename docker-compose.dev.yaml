@@ -1,4 +1,15 @@
 services:
+  
+  database:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
   six-city-backend:
     build:
       context: .
@@ -7,9 +18,30 @@ services:
       - 5000:5000
     volumes:
       - ./:/usr/src/six-city-backend
-    command: sh -c "npm install && npm start"
+    command: sh -c "npm install && npm start && npm migration:run"
     networks:
       - six-city-network
+    depends_on:
+      - database
+  
+  pg_admin:
+    container_name: pg_admin
+    image: dpage/pgadmin4:8.9
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - '7777:80'
+    volumes:
+      - pgadmin_local:/var/lib/pgadmin
+    restart: always
+    networks:
+      - six-city-network
+    depends_on:
+      - database
+
+volumes:
+  database:
 
 networks:
   six-city-network:
