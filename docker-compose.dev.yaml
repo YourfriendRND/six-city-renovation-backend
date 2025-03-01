@@ -1,6 +1,6 @@
 services:
-  
-  database:
+
+  pg:
     image: postgres:14
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
@@ -10,6 +10,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    networks:
+      - six-city-network
 
   six-city-backend:
     build:
@@ -17,14 +19,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${PORT}:${PORT}
-    volumes:
-      - database:/usr/src/six-city-backend
-    command: sh -c "npm install && npm start && npm migration:run"
+    command: sh -c "npm install && npm run migration:run && npm start"
     networks:
       - six-city-network
     depends_on:
-      - database
-  
+      - pg
+
   pg_admin:
     container_name: pg_admin
     image: dpage/pgadmin4:8.9
@@ -38,11 +38,9 @@ services:
     restart: always
     networks:
       - six-city-network
-    depends_on:
-      - database
 
 volumes:
-  database:
+  postgres_data:
   pgadmin:
 
 networks:
