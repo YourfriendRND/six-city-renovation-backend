@@ -8,10 +8,9 @@ import { ApplicationConfig } from 'src/shared/config/application/application.con
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const configService =
-    app.get<ConfigService<ApplicationConfig>>(ConfigService);
-
-  const port = configService.get('port');
+  const port = app
+    .get(ConfigService)
+    .get<ApplicationConfig>('application').port;
 
   const config = new DocumentBuilder()
     .setTitle('The Six city open API')
@@ -21,8 +20,9 @@ async function bootstrap() {
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('docs', app, documentFactory);
 
+  console.log(port);
   await app.listen(port);
 }
 
