@@ -1,21 +1,17 @@
 import {
-  PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
-  UpdateDateColumn,
   OneToMany,
   Entity,
 } from 'typeorm';
 
+import { CommonEntity } from '../../../shared/common';
+import { UserInterface, CommentInterface } from 'src/shared/interfaces';
 import { Roles } from '../../../shared/constants';
 import { Place } from '../../../modules/places/entities/place.entity';
 import { Comment } from '../../../modules/comments/entities/comment.entity';
 
 @Entity('users')
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class User extends CommonEntity implements UserInterface {
   @Column({ type: 'varchar', length: 50 })
   name: string;
 
@@ -41,24 +37,9 @@ export class User {
   })
   lastLoginAt: Date | null;
 
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date;
-
   @OneToMany(() => Place, (place) => place)
   places: Place[];
 
   @OneToMany(() => Comment, (comment) => comment)
-  comments: Comment[];
+  comments: CommentInterface[];
 }

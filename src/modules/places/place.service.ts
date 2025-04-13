@@ -28,6 +28,14 @@ export class PlaceService {
         order: {
           createdAt: 'DESC',
         },
+        relations: {
+          preview: true,
+        },
+        select: {
+          preview: {
+            url: true,
+          },
+        },
       });
     } catch (err) {
       this.logger.error(err);

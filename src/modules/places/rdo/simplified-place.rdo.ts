@@ -2,6 +2,7 @@ import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { Cities } from 'src/shared/constants';
 import { PlaceTypes } from 'src/shared/constants';
+import { File } from 'src/modules/files/entities/file.entity';
 
 export class SimplifiedPlaceRdo {
   @ApiProperty({
