@@ -1,22 +1,22 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   Check,
   ManyToOne,
   JoinTable,
-  CreateDateColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
+import { CommonEntity } from '../../../shared/common';
+import {
+  CommentInterface,
+  PlaceInterface,
+  UserInterface,
+} from 'src/shared/interfaces';
 import { Place } from '../../../modules/places/entities/place.entity';
 import { User } from '../../../modules/users/entities/user.entity';
 
 @Entity('comments')
-export class Comment {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Comment extends CommonEntity implements CommentInterface {
   @Column({ type: 'varchar', length: 1000 })
   text: string;
 
@@ -28,26 +28,11 @@ export class Comment {
   @JoinTable({
     name: 'user_id',
   })
-  user: User;
+  user: UserInterface;
 
   @ManyToOne(() => Place, (place) => place.id)
   @JoinTable({
     name: 'place_id',
   })
-  place: Place;
-
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  updatedAt: Date;
+  place: PlaceInterface;
 }

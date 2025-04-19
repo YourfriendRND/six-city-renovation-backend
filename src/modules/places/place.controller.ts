@@ -11,7 +11,6 @@ import { PaginationPlacesDto } from './dto/pagination-places.dto';
 import { Cities } from 'src/shared/constants';
 import { PlacesListRdo } from './rdo/places-list.rdo';
 import { fillResponseDto } from 'src/shared/common';
-import { SimplifiedPlaceRdo } from './rdo/simplified-place.rdo';
 
 @ApiTags('Предложения аренды')
 @Controller('places')
@@ -43,10 +42,11 @@ export class PlaceController {
         city,
         pagination,
       );
-      const placesRdo = places.map((place) =>
-        fillResponseDto(SimplifiedPlaceRdo, place),
-      );
-      return fillResponseDto(PlacesListRdo, { places: placesRdo, total });
+
+      return fillResponseDto(PlacesListRdo, {
+        places,
+        total,
+      });
     } catch (err) {
       this.logger.error(err);
     }

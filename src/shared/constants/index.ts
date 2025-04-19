@@ -5,3 +5,4 @@ export * from './roles.enum';
 export * from './cities.enum';
 export * from './features.enum';
 export * from './common';
+export * from './sorting.enum';

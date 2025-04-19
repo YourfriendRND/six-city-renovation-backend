@@ -3,27 +3,26 @@ import {
   Entity,
   JoinColumn,
   OneToMany,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
   ManyToOne,
   ManyToMany,
   JoinTable,
   OneToOne,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
 
+import { CommonEntity } from '../../../shared/common';
+import {
+  FileInterface,
+  PlaceInterface,
+  UserInterface,
+  CommentInterface,
+} from '../../../shared/interfaces';
 import { Cities, PlaceTypes } from '../../../shared/constants';
 import { User } from '../../../modules/users/entities/user.entity';
 import { Comment } from '../../../modules/comments/entities/comment.entity';
 import { File } from '../../../modules/files/entities/file.entity';
 
 @Entity('places')
-export class Place {
-  @PrimaryGeneratedColumn('uuid')
-  @Expose()
-  id: string;
-
+export class Place extends CommonEntity implements PlaceInterface {
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
@@ -61,27 +60,12 @@ export class Place {
   @Column({ type: 'decimal', precision: 9, scale: 6 })
   longitude: number;
 
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  createdAt?: Date;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  updatedAt?: Date;
-
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'host_id' })
-  host: User | string;
+  host: UserInterface;
 
   @OneToMany(() => Comment, (comment) => comment.id)
-  comments?: Comment[];
+  comments?: CommentInterface[];
 
   @ManyToMany(() => File, (file) => file.id)
   @JoinTable({
@@ -95,9 +79,9 @@ export class Place {
       referencedColumnName: 'id',
     },
   })
-  images: File[] | string[];
+  images: FileInterface[];
 
   @OneToOne(() => File, (file) => file.id)
   @JoinColumn({ name: 'preview_id' })
-  preview: File | string;
+  preview: FileInterface;
 }

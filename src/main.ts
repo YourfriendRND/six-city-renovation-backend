@@ -7,6 +7,14 @@ import { ApplicationConfig } from 'src/shared/config/application/application.con
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const homeUrl = app
+    .get(ConfigService)
+    .get<ApplicationConfig>('application').homeUrl;
+
+  app.enableCors({
+    origin: [homeUrl],
+    credentials: true,
+  });
 
   const port = app
     .get(ConfigService)
