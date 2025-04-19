@@ -1,8 +1,9 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+
 import { Cities } from 'src/shared/constants';
 import { PlaceTypes } from 'src/shared/constants';
-import { File } from 'src/modules/files/entities/file.entity';
+import { FileRdo } from 'src/modules/files/rdo/file.rdo';
 
 export class SimplifiedPlaceRdo {
   @ApiProperty({
@@ -62,9 +63,10 @@ export class SimplifiedPlaceRdo {
   longitude: number;
 
   @ApiProperty({
-    example: 'id',
+    type: FileRdo,
     description: 'Идентификатор изображения предложения аренды',
   })
   @Expose()
-  preview: string;
+  @Type(() => FileRdo)
+  preview: FileRdo;
 }

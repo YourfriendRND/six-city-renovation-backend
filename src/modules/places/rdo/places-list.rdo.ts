@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { SimplifiedPlaceRdo } from './simplified-place.rdo';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -8,6 +8,7 @@ export class PlacesListRdo {
     description: 'Список предложений аренды',
   })
   @Expose()
+  @Type(() => SimplifiedPlaceRdo)
   places: SimplifiedPlaceRdo[];
 
   @ApiProperty({

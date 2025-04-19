@@ -22,6 +22,9 @@ export class ApplicationConfig {
   @IsNotEmpty()
   @IsEnum(Environments)
   environment: string;
+
+  @IsString()
+  homeUrl: string;
 }
 
 export function validate(config: Record<string, unknown>): ApplicationConfig {
@@ -35,12 +38,14 @@ export function validate(config: Record<string, unknown>): ApplicationConfig {
   if (errors.length > 0) {
     throw new Error(errors.toString());
   }
+
   return validatedConfig;
 }
 
-export default registerAs(NameSpaces.Application, () =>
-  validate({
+export default registerAs(NameSpaces.Application, () => {
+  return validate({
     environment: process.env.NODE_ENV ?? Environments.Development,
     port: parseInt(process.env.PORT, 10),
-  }),
-);
+    homeUrl: process.env.HOME_URL,
+  });
+});

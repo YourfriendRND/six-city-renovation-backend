@@ -3,8 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Place } from './entities/place.entity';
-import { Cities, DEFAULT_LIMIT, DEFAULT_PAGE } from 'src/shared/constants';
 import { PaginationPlacesDto } from './dto/pagination-places.dto';
+import {
+  Cities,
+  DEFAULT_LIMIT,
+  DEFAULT_PAGE,
+  SortBy,
+} from 'src/shared/constants';
 
 @Injectable()
 export class PlaceService {
@@ -26,15 +31,10 @@ export class PlaceService {
         skip: (page - 1) * limit,
         take: limit,
         order: {
-          createdAt: 'DESC',
+          createdAt: SortBy.Desc,
         },
         relations: {
           preview: true,
-        },
-        select: {
-          preview: {
-            url: true,
-          },
         },
       });
     } catch (err) {
