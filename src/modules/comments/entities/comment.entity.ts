@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  Check,
-  ManyToOne,
-  JoinTable,
-} from 'typeorm';
+import { Entity, Column, Check, ManyToOne, JoinColumn } from 'typeorm';
 
 import { CommonEntity } from '../../../shared/common';
 import {
@@ -24,14 +18,18 @@ export class Comment extends CommonEntity implements CommentInterface {
   @Check('rating > 0 AND rating <= 5')
   rating: number;
 
-  @ManyToOne(() => User, (user) => user.id)
-  @JoinTable({
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({
     name: 'user_id',
   })
   user: UserInterface;
 
-  @ManyToOne(() => Place, (place) => place.id)
-  @JoinTable({
+  @ManyToOne(() => Place, (place) => place.id, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({
     name: 'place_id',
   })
   place: PlaceInterface;
