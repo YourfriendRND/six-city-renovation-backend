@@ -29,7 +29,7 @@ export class Place extends CommonEntity implements PlaceInterface {
   @Column({ type: 'varchar', length: 1000 })
   description: string;
 
-  @Column({ default: false })
+  @Column({ default: false, name: 'is_premium' })
   isPremium: boolean;
 
   @Column({

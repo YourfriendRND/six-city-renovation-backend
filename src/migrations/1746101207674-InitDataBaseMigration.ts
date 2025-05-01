@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class InitialDataBaseMigration1746092611587 implements MigrationInterface {
-    name = 'InitialDataBaseMigration1746092611587'
+export class InitDataBaseMigration1746101207674 implements MigrationInterface {
+    name = 'InitDataBaseMigration1746101207674'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "comments" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "text" character varying(1000) NOT NULL, "rating" integer NOT NULL, "user_id" uuid, "place_id" uuid, CONSTRAINT "CHK_5beb6e68902d72e98421b9a604" CHECK (rating > 0 AND rating <= 5), CONSTRAINT "PK_8bf68bc960f2b69e818bdb90dcb" PRIMARY KEY ("id"))`);
@@ -15,7 +15,7 @@ export class InitialDataBaseMigration1746092611587 implements MigrationInterface
         await queryRunner.query(`ALTER TABLE "comments" ADD CONSTRAINT "FK_4c675567d2a58f0b07cef09c13d" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "comments" ADD CONSTRAINT "FK_ca36bd1ca8ad51147abd22506f9" FOREIGN KEY ("place_id") REFERENCES "places"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "places" ADD CONSTRAINT "FK_3305ddf3961622cd5bc31ebe4a3" FOREIGN KEY ("host_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "places" ADD CONSTRAINT "FK_7367af74acd48a46470aab48900" FOREIGN KEY ("preview_id") REFERENCES "files"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "places" ADD CONSTRAINT "FK_7367af74acd48a46470aab48900" FOREIGN KEY ("preview_id") REFERENCES "files"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "files_places" ADD CONSTRAINT "FK_100bf492bf6859be6858d530ac1" FOREIGN KEY ("place_id") REFERENCES "places"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "files_places" ADD CONSTRAINT "FK_cc8e46da9165dbabe7e7e916580" FOREIGN KEY ("file_id") REFERENCES "files"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
     }
