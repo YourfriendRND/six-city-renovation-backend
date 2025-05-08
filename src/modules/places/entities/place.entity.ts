@@ -15,11 +15,13 @@ import {
   PlaceInterface,
   UserInterface,
   CommentInterface,
+  CityInterface,
 } from '../../../shared/interfaces';
-import { Cities, PlaceTypes } from '../../../shared/constants';
+import { PlaceTypes } from '../../../shared/constants';
 import { User } from '../../../modules/users/entities/user.entity';
 import { Comment } from '../../../modules/comments/entities/comment.entity';
 import { File } from '../../../modules/files/entities/file.entity';
+import { City } from './city.entity';
 
 @Entity('places')
 export class Place extends CommonEntity implements PlaceInterface {
@@ -51,9 +53,6 @@ export class Place extends CommonEntity implements PlaceInterface {
   @Column({ type: 'jsonb', nullable: true })
   features: string[] | null;
 
-  @Column({ enum: Cities })
-  city: string;
-
   @Column({ type: 'decimal', precision: 9, scale: 6 })
   latitude: number;
 
@@ -84,4 +83,8 @@ export class Place extends CommonEntity implements PlaceInterface {
   @OneToOne(() => File, (file) => file.id)
   @JoinColumn({ name: 'preview_id' })
   preview: FileInterface;
+
+  @ManyToOne(() => City, (city) => city, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'city_id'})
+  city: CityInterface;
 }

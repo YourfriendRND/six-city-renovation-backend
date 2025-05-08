@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Query, Logger } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  Logger,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import {
   ApiOkResponse,
   ApiOperation,
@@ -8,8 +15,7 @@ import {
 
 import { PlaceService } from './place.service';
 import { PaginationPlacesDto } from './dto/pagination-places.dto';
-import { Cities } from 'src/shared/constants';
-import { PlacesListRdo } from './rdo/places-list.rdo';
+import { PlacesListRdo, CitiesRDO } from './rdo';
 import { fillResponseDto } from 'src/shared/common';
 
 @ApiTags('Предложения аренды')
@@ -18,28 +24,41 @@ export class PlaceController {
   private readonly logger = new Logger(PlaceController.name);
 
   constructor(private readonly placeService: PlaceService) {}
-  @Get('/:city')
+
+  @Get('/cities')
+  @ApiOperation({
+    summary: 'Получение списка доступных городов',
+  })
+  @ApiOkResponse({
+    description: 'Список доступных городов получен',
+    type: [CitiesRDO],
+  })
+  async findCities(): Promise<CitiesRDO[]> {
+    const cities = await this.placeService.findActiveCities();
+
+    return fillResponseDto(CitiesRDO, cities);
+  }
+
+  @Get('/:city_id')
   @ApiOperation({
     summary: 'Получение списка предложений аренды по конкретному городу',
   })
   @ApiParam({
-    name: 'city',
-    description: 'Город по которому ищем предложения аренды',
-    example: Cities.Shanghai,
-    enum: Cities,
-    required: true,
+    name: 'city_id',
+    description: 'Идентификатор города по которому ищем предложения аренды',
+    example: '46db580d-cfda-41bf-83c2-34b8b2f7d497',
   })
   @ApiOkResponse({
     type: PlacesListRdo,
     description: 'Список предложений аренды по выбранному городу',
   })
   async find(
-    @Param('city') city: Cities,
+    @Param('city_id', ParseUUIDPipe) cityId: string,
     @Query() pagination: PaginationPlacesDto,
   ): Promise<PlacesListRdo> {
     try {
       const [places, total] = await this.placeService.findAllPlaces(
-        city,
+        cityId,
         pagination,
       );
 

@@ -1,9 +1,11 @@
 import { Expose, Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 
-import { Cities } from 'src/shared/constants';
 import { PlaceTypes } from 'src/shared/constants';
 import { FileRdo } from 'src/modules/files/rdo/file.rdo';
+import { CitiesRDO } from './cities.rdo';
+
+class SimplifiedCityRdo extends PickType(CitiesRDO, ['name']) {}
 
 export class SimplifiedPlaceRdo {
   @ApiProperty({
@@ -42,11 +44,12 @@ export class SimplifiedPlaceRdo {
   price: number;
 
   @ApiProperty({
-    example: Cities.Antalya,
+    type: SimplifiedCityRdo,
     description: 'Город предложения аренды',
   })
   @Expose()
-  city: Cities;
+  @Type(() => SimplifiedCityRdo)
+  city: SimplifiedCityRdo;
 
   @ApiProperty({
     example: 36.865271,
