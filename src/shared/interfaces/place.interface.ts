@@ -2,6 +2,7 @@ import { PlaceTypes } from '../constants';
 import { UserInterface } from './user.interface';
 import { CommentInterface } from './comment.interface';
 import { FileInterface } from './file.interface';
+import { CityInterface } from './city.interface';
 
 export interface PlaceInterface {
   id: string;
@@ -13,7 +14,7 @@ export interface PlaceInterface {
   adultsCount: number;
   price: number;
   features: string[] | null;
-  city: string;
+  city: CityInterface;
   latitude: number;
   longitude: number;
   createdAt?: Date;
