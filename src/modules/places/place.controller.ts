@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 import {
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
@@ -15,8 +16,8 @@ import {
 
 import { PlaceService } from './place.service';
 import { PaginationPlacesDto } from './dto/pagination-places.dto';
-import { PlacesListRdo, CitiesRDO } from './rdo';
-import { fillResponseDto } from 'src/shared/common';
+import { PlacesListRdo, CitiesRDO, PlaceRdo } from './rdo';
+import { createNotFoundExampleError, fillResponseDto } from 'src/shared/common';
 
 @ApiTags('Предложения аренды')
 @Controller('places')
@@ -39,7 +40,7 @@ export class PlaceController {
     return fillResponseDto(CitiesRDO, cities);
   }
 
-  @Get('/:city_id')
+  @Get('/cities/:city_id')
   @ApiOperation({
     summary: 'Получение списка предложений аренды по конкретному городу',
   })
@@ -69,5 +70,30 @@ export class PlaceController {
     } catch (err) {
       this.logger.error(err);
     }
+  }
+
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Получение деталей предложения по id',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Идентификатор предложения',
+    example: 'b3cb9fff-8153-47fe-94b8-963bce177cb9',
+  })
+  @ApiOkResponse({
+    description: 'Предложение по id найдена',
+    type: PlaceRdo,
+  })
+  @ApiNotFoundResponse({
+    description: 'Предложение по id не найдено',
+    example: createNotFoundExampleError('Place with id: b3cb9fff-8153-47fe-94b8-963bce177cb9 not found'),
+  })
+  async findPlaceById(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<PlaceRdo> {
+    const place = await this.placeService.findPlaceById(id);
+
+    return fillResponseDto(PlaceRdo, place);
   }
 }
