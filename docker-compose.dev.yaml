@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
 
   pg:
@@ -24,6 +26,7 @@ services:
       - six-city-network
     depends_on:
       - pg
+      - minio
 
   pg_admin:
     container_name: pg_admin
@@ -39,9 +42,25 @@ services:
     networks:
       - six-city-network
 
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio
+    command: server /data --console-address ":${MINIO_CONSOLE_PORT}"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "${MINIO_PORT}:${MINIO_PORT}"
+      - "${MINIO_CONSOLE_PORT}:${MINIO_CONSOLE_PORT}"
+    networks:
+      - six-city-network
+
 volumes:
   postgres_data:
   pgadmin:
+  minio_data:
 
 networks:
   six-city-network:
