@@ -1,5 +1,6 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { FileRdo } from 'src/modules/files/rdo/file.rdo';
 
 export class CitiesRDO {
   @Expose()
@@ -29,4 +30,12 @@ export class CitiesRDO {
     description: 'Координаты долготы центра города',
   })
   longitude: number;
+
+  @ApiProperty({
+    type: FileRdo,
+    description: 'Метаданные для изображения для города',
+  })
+  @Expose()
+  @Type(() => FileRdo)
+  preview: FileRdo;
 }
