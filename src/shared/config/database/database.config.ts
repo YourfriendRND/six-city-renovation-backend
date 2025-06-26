@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsString, IsNumber, validateSync } from 'class-validator';
-import { plainToInstance } from 'class-transformer';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 import { registerAs } from '@nestjs/config';
 
-import { NameSpaces } from '../../../shared/constants';
+import { NameSpaces } from 'src/shared/constants';
+import { validateConfig } from 'src/shared/common';
 
 export class DatabaseConfig {
   @IsString()
@@ -26,27 +26,12 @@ export class DatabaseConfig {
   database: string;
 }
 
-export function validate(config: Record<string, unknown>): DatabaseConfig {
-  const validatedConfig = plainToInstance(DatabaseConfig, config, {
-    enableImplicitConversion: true,
-  });
-
-  const errors = validateSync(validatedConfig, {
-    skipMissingProperties: false,
-  });
-
-  if (errors.length > 0) {
-    throw new Error(errors.toString());
-  }
-  return validatedConfig;
-}
-
 export default registerAs(NameSpaces.Database, () =>
-  validate({
+  validateConfig(DatabaseConfig, ({
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT, 10),
     databaseUsername: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-  }),
+  })),
 );

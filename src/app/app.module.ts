@@ -9,6 +9,8 @@ import applicationConfig from 'src/shared/config/application/application.config'
 import databaseConfig from 'src/shared/config/database/database.config';
 
 import { PlaceModule } from 'src/modules/places/place.module';
+import { FileModule } from 'src/modules/files/file.module';
+import { StorageModule } from 'src/modules/storage/storage.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { PlaceModule } from 'src/modules/places/place.module';
       inject: [ConfigService],
     }),
     PlaceModule,
+    FileModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -85,6 +85,6 @@ export class Place extends CommonEntity implements PlaceInterface {
   preview: FileInterface;
 
   @ManyToOne(() => City, (city) => city, { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'city_id'})
+  @JoinColumn({ name: 'city_id' })
   city: CityInterface;
 }

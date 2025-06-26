@@ -59,6 +59,9 @@ export class PlaceService {
         where: {
           isActive: true,
         },
+        relations: {
+          preview: true,
+        },
         take: MAX_CITY_COUNT,
       });
     } catch (err) {

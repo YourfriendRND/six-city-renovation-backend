@@ -1,8 +1,13 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 
 import { CommonEntity } from '../../../shared/common';
-import { CityInterface, PlaceInterface } from '../../../shared/interfaces';
 import { Place } from './place.entity';
+import { File } from '../../../modules/files/entities/file.entity';
+import {
+  CityInterface,
+  FileInterface,
+  PlaceInterface,
+} from '../../../shared/interfaces';
 
 @Entity('cities')
 export class City extends CommonEntity implements CityInterface {
@@ -23,4 +28,8 @@ export class City extends CommonEntity implements CityInterface {
 
   @OneToMany(() => Place, (place) => place)
   places: PlaceInterface[];
+
+  @OneToOne(() => File, (file) => file.id)
+  @JoinColumn({ name: 'preview_id' })
+  preview: FileInterface;
 }

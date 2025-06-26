@@ -87,7 +87,9 @@ export class PlaceController {
   })
   @ApiNotFoundResponse({
     description: 'Предложение по id не найдено',
-    example: createNotFoundExampleError('Place with id: b3cb9fff-8153-47fe-94b8-963bce177cb9 not found'),
+    example: createNotFoundExampleError(
+      'Place with id: b3cb9fff-8153-47fe-94b8-963bce177cb9 not found',
+    ),
   })
   async findPlaceById(
     @Param('id', ParseUUIDPipe) id: string,
