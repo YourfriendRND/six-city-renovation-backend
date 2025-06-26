@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import * as Minio from 'minio';
-import { Stream } from 'node:stream';
+
 import { PassThrough } from 'stream';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -115,7 +115,7 @@ export class StorageService implements OnApplicationBootstrap {
     }
   }
 
-  async getFile(fileId: string): Promise<Stream.Readable> {
+  async getFile(fileId: string) {
     try {
       const stat = await this.client.statObject(this.config.bucketName, fileId);
 
