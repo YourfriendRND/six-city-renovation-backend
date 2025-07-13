@@ -7,16 +7,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import applicationConfig from 'src/shared/config/application/application.config';
 import databaseConfig from 'src/shared/config/database/database.config';
+import jwtConfig from 'src/shared/config/jwt/jwt.config';
 
 import { PlaceModule } from 'src/modules/places/place.module';
 import { FileModule } from 'src/modules/files/file.module';
 import { StorageModule } from 'src/modules/storage/storage.module';
+import { AuthModule } from 'src/modules/auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [applicationConfig, databaseConfig],
+      load: [applicationConfig, databaseConfig, jwtConfig],
       envFilePath: './.env',
       cache: true,
     }),
@@ -37,6 +39,7 @@ import { StorageModule } from 'src/modules/storage/storage.module';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
     PlaceModule,
     FileModule,
     StorageModule,
