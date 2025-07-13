@@ -1,8 +1,9 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+import { AppModule } from './app/app.module';
 import { ApplicationConfig } from 'src/shared/config/application/application.config';
 
 async function bootstrap() {
@@ -15,6 +16,8 @@ async function bootstrap() {
     origin: [homeUrl],
     credentials: true,
   });
+
+  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
   const port = app
     .get(ConfigService)

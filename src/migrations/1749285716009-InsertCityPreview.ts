@@ -31,8 +31,6 @@ export class InsertCityPreview1749285716009 implements MigrationInterface {
     await queryRunner.query(
       `UPDATE cities SET preview_id = 'e18857d9-d0da-4bf8-8eb4-388476086e5f' WHERE id = 'ab1137fa-49eb-4e5c-b745-f00f1cb82c3b'`,
     );
-
-    // TODO: add other cities
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

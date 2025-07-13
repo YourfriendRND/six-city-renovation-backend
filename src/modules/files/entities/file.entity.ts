@@ -1,8 +1,9 @@
-import { Entity, Column, ManyToMany } from 'typeorm';
+import { Entity, Column, ManyToMany, OneToOne } from 'typeorm';
 
 import { CommonEntity } from '../../../shared/common';
-import { FileInterface } from 'src/shared/interfaces';
+import { FileInterface, UserInterface } from 'src/shared/interfaces';
 import { Place } from '../../../modules/places/entities/place.entity';
+import { User } from '../../../modules/users/entities/user.entity';
 
 @Entity('files')
 export class File extends CommonEntity implements FileInterface {
@@ -23,4 +24,7 @@ export class File extends CommonEntity implements FileInterface {
 
   @ManyToMany(() => Place, (place) => place.images)
   places?: Place[];
+
+  @OneToOne(() => User, (user) => user.avatar)
+  user?: UserInterface;
 }

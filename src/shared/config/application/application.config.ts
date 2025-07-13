@@ -6,6 +6,7 @@ import {
   IsString,
   Max,
   Min,
+  MinLength,
 } from 'class-validator';
 
 import { NameSpaces, Environments } from '../../constants';
@@ -25,12 +26,18 @@ export class ApplicationConfig {
 
   @IsString()
   homeUrl: string;
+
+  @MinLength(32)
+  @IsString()
+  @IsNotEmpty()
+  passwordSalt: string;
 }
 
 export default registerAs(NameSpaces.Application, () => {
-  return validateConfig(ApplicationConfig, ({
+  return validateConfig(ApplicationConfig, {
     environment: process.env.NODE_ENV ?? Environments.Development,
     port: parseInt(process.env.PORT, 10),
     homeUrl: process.env.HOME_URL,
-  }));
+    passwordSalt: process.env.PASSWORD_SALT,
+  });
 });
