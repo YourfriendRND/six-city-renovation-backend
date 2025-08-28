@@ -5,11 +5,13 @@ import {
   UserInterface,
   CommentInterface,
   FileInterface,
-} from 'src/shared/interfaces';
+  SessionInterface,
+} from '../../../shared/interfaces';
 import { Roles } from '../../../shared/constants';
 import { Place } from '../../../modules/places/entities/place.entity';
 import { Comment } from '../../../modules/comments/entities/comment.entity';
 import { File } from '../../../modules/files/entities/file.entity';
+import { Session } from '../../../modules/sessions/entities/session.entity';
 
 @Entity('users')
 export class User extends CommonEntity implements UserInterface {
@@ -51,4 +53,7 @@ export class User extends CommonEntity implements UserInterface {
   })
   @JoinColumn({ name: 'avatar_id' })
   avatar?: FileInterface;
+
+  @OneToMany(() => Session, (session) => session.user)
+  sessions: SessionInterface[];
 }

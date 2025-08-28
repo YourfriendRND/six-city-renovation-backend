@@ -1,4 +1,4 @@
-import { Injectable, Logger, Inject } from '@nestjs/common';
+import { Injectable, Logger, Inject, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -9,6 +9,7 @@ import { CreateUserDTO } from '../auth/dto';
 import { Roles } from 'src/shared/constants';
 import { ConfigType } from '@nestjs/config';
 import applicationConfig from 'src/shared/config/application/application.config';
+import { UserInterface } from 'src/shared/interfaces';
 
 @Injectable()
 export class UserService {
@@ -29,14 +30,11 @@ export class UserService {
     hmac.update(password); // Добавляем пароль в HMAC
     const pepperedPassword = hmac.digest('hex');
 
-    const salt = bcrypt.genSaltSync(16);
+    const salt = bcrypt.genSaltSync(8);
     return bcrypt.hashSync(pepperedPassword, salt);
   }
 
-  private comparePassword(
-    inputPassword: string,
-    hashedPassword: string,
-  ): boolean {
+  comparePassword(inputPassword: string, hashedPassword: string): boolean {
     const saltToken = this.config.passwordSalt;
 
     const hmac = crypto.createHmac('sha256', saltToken);
@@ -64,5 +62,23 @@ export class UserService {
     this.logger.log(`User created: ${createdUser.email}`);
 
     return createdUser;
+  }
+
+  async updateUserLastLogin(id: string): Promise<UserInterface> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        `User with id: ${id} not found, impossible to update login date`,
+      );
+    }
+
+    user.lastLoginAt = new Date();
+
+    return this.userRepository.save(user);
   }
 }

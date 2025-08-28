@@ -27,14 +27,20 @@ export class ApplicationConfig {
   @IsString()
   homeUrl: string;
 
-  @MinLength(32)
+  @MinLength(8)
   @IsString()
   @IsNotEmpty()
   passwordSalt: string;
+
+  @IsString()
+  @IsNotEmpty()
+  applicationGlobalPrefix: string;
 }
 
 export default registerAs(NameSpaces.Application, () => {
   return validateConfig(ApplicationConfig, {
+    applicationGlobalPrefix:
+      process.env.APPLICATION_GLOBAL_PREFIX || 'six_city',
     environment: process.env.NODE_ENV ?? Environments.Development,
     port: parseInt(process.env.PORT, 10),
     homeUrl: process.env.HOME_URL,
