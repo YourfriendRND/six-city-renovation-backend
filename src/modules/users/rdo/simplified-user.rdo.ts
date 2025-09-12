@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import { Roles } from 'src/shared/constants';
 
 export class SimplifiedUserRdo {
   @Expose()
@@ -29,4 +30,26 @@ export class SimplifiedUserRdo {
     example: 'https://example.com',
   })
   avatarUrl: string;
+
+  @ApiProperty({
+    description: 'Роль пользователя',
+    example: Roles.User,
+    enum: Roles,
+  })
+  @Expose()
+  role: Roles;
+
+  @ApiProperty({
+    description: 'Email пользователя',
+    example: 'user@example.com',
+  })
+  @Expose()
+  email: string;
+
+  @ApiProperty({
+    description: 'Дата последнего посещения',
+    example: '2025-08-28T16:55:42.803Z'
+  })
+  @Expose()
+  lastLoginAt: Date;
 }

@@ -3,4 +3,5 @@ export enum NameSpaces {
   Database = 'database',
   Storage = 'storage',
   Jwt = 'jwt',
+  Redis = 'redis',
 }

@@ -2,6 +2,7 @@ import { CommonEntityInterface } from './common-entity.interface';
 import { Roles } from '../constants';
 import { PlaceInterface } from './place.interface';
 import { CommentInterface } from './comment.interface';
+import { SessionInterface } from './session.interface';
 
 export interface UserInterface extends CommonEntityInterface {
   name: string;
@@ -13,4 +14,6 @@ export interface UserInterface extends CommonEntityInterface {
   lastLoginAt: Date | null;
   places: PlaceInterface[];
   comments: CommentInterface[];
+  sessions?: SessionInterface[];
+  sessionId?: string;
 }
