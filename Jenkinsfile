@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'feat/42-jenkins-ci-cd',
+                git branch: 'dev',
                 url: 'https://github.com/YourfriendRND/six-city-renovation-backend'
             }
         }
