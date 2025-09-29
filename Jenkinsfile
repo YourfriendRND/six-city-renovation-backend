@@ -21,7 +21,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no -T jenkins@5.180.136.186 << 'REMOTE_SCRIPT'
                             cd /var/lib/jenkins/six-city-renovation-backend
                             git pull origin dev
-                            docker compose -f ${dockerComposeFile} --env-file ${envFile} up -d
+                            docker compose -f ${dockerComposeFile} --env-file ${envFile} up -d --build
                             docker system prune -f 
 REMOTE_SCRIPT
                         """
