@@ -57,10 +57,23 @@ services:
     networks:
       - six-city-network
 
+  six_city_redis:
+    container_name: six_city_redis
+    image: redis:7.2-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - six_city_redis:/data
+    ports:
+      - '${REDIS_PORT}:${REDIS_PORT}'
+    restart: always
+    networks:
+      - six-city-network
+
 volumes:
   postgres_data:
   pgadmin:
   minio_data:
+  six_city_redis:
 
 networks:
   six-city-network:

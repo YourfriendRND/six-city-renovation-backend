@@ -14,7 +14,7 @@ pipeline {
         stage('Deploy-to-server') {
             steps {
                 script {
-                    def dockerComposeFile = 'docker-compose.dev.yaml'
+                    def dockerComposeFile = 'docker-compose.dev.yml'
                     def envFile = '.env'
                     sshagent(['github-six-city-actions']) {
                          sh """
