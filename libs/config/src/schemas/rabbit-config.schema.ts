@@ -1,0 +1,20 @@
+import { Transform } from 'class-transformer';
+import { IsInt, IsString } from 'class-validator';
+
+export class RabbitConfigSchema {
+  @IsString()
+  host: string;
+
+  @IsInt()
+  @Transform(({ value }) => Number(value))
+  port: number;
+
+  @IsString()
+  user: string;
+
+  @IsString()
+  password: string;
+
+  @IsString()
+  url: string;
+}
