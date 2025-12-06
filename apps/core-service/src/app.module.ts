@@ -10,7 +10,6 @@ import { jwtConfig } from '@libs/config';
 import { PlaceModule } from './modules/places/place.module';
 import { FileModule } from './modules/files/file.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { HealthCheckModule } from './modules/health-check/health-check.module';
 import { UserModule } from './modules/users/user.module';
 
 @Module({
@@ -40,7 +39,6 @@ import { UserModule } from './modules/users/user.module';
     AuthModule,
     PlaceModule,
     FileModule,
-    HealthCheckModule,
     UserModule,
   ],
   controllers: [],
