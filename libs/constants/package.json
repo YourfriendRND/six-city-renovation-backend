@@ -1,0 +1,12 @@
+{
+  "name": "@libs/constants",
+  "author": "Anton Ivanov",
+  "version": "1.0.0",
+  "description": "Shared constants for the six-city app",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {},
+  "keywords": [],
+  "license": "MIT",
+  "private": true
+}

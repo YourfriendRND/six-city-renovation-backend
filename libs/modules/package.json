@@ -1,0 +1,12 @@
+{
+  "name": "@libs/modules",
+  "author": "Anton Ivanov",
+  "version": "1.0.0",
+  "description": "Shared modules for the six-city app",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {},
+  "keywords": [],
+  "license": "MIT",
+  "private": true
+}
