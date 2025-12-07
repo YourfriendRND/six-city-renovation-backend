@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsInt, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 
 export class RabbitConfigSchema {
   @IsString()
@@ -14,6 +14,10 @@ export class RabbitConfigSchema {
 
   @IsString()
   password: string;
+
+  @IsOptional()
+  @IsString()
+  vhost?: string;
 
   @IsString()
   url: string;

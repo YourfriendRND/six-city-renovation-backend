@@ -19,11 +19,7 @@ export class FileBridgeService {
   private makeStorageUrl(): string {
     const storageHost = this.storageConfig.applicationHost;
 
-    if (storageHost === 'localhost') {
-      return `http://${storageHost}:${this.storageConfig.port}/storage`;
-    }
-
-    return `http://${storageHost}/storage`;
+    return `http://${storageHost}:${this.storageConfig.port}/storage`;
   }
 
   async getFile({

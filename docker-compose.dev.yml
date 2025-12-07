@@ -96,6 +96,7 @@ services:
       - "${RABBITMQ_ADMIN_PORT}:${RABBITMQ_ADMIN_PORT}"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+      - ./rabbitmq/config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
     networks:
       - six-city-network
     restart: unless-stopped
