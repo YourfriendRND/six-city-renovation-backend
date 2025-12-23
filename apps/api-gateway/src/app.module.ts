@@ -5,6 +5,7 @@ import { PlaceModule } from './module/places/place.module';
 import { FileModule } from './module/files/file.module';
 import { AuthModule } from './module/auth/auth.module';
 import { jwtConfig } from '@libs/config';
+import { UserModule } from './module/users/user.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { jwtConfig } from '@libs/config';
     PlaceModule,
     FileModule,
     AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}

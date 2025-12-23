@@ -3,6 +3,7 @@ import { CommentInterface } from './comment.interface';
 import { PlaceInterface } from './place.interface';
 import { SessionInterface } from './session.interface';
 import { Roles } from '@libs/constants';
+import { EconfirmationInterface } from './econfirmation.interface';
 
 export interface UserInterface extends CommonEntityInterface {
   name: string;
@@ -16,4 +17,5 @@ export interface UserInterface extends CommonEntityInterface {
   comments: CommentInterface[];
   sessions?: SessionInterface[];
   sessionId?: string;
+  emailConfirmations: EconfirmationInterface[];
 }

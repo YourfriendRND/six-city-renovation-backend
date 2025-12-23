@@ -11,6 +11,7 @@ import { PlaceModule } from './modules/places/place.module';
 import { FileModule } from './modules/files/file.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/users/user.module';
+import { EmailConfirmationModule } from './modules/email-confirmation/email-confirmation.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { UserModule } from './modules/users/user.module';
     PlaceModule,
     FileModule,
     UserModule,
+    EmailConfirmationModule,
   ],
   controllers: [],
   providers: [],

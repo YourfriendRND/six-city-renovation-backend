@@ -6,12 +6,14 @@ import {
   CommentInterface,
   FileInterface,
   SessionInterface,
+  EconfirmationInterface,
 } from '@libs/types';
 import { Roles } from '@libs/constants';
 import { Place } from '../../../modules/places/entities/place.entity';
 import { File } from '../../../modules/files/entities/file.entity';
 import { Session } from '../../sessions/entities/session.entity';
 import { Comment } from '../../comments/entities/comment.entity';
+import { Econfirmation } from '../../email-confirmation/entities/email-confirmation.entity';
 
 @Entity('users')
 export class User extends CommonEntity implements UserInterface {
@@ -56,4 +58,7 @@ export class User extends CommonEntity implements UserInterface {
 
   @OneToMany(() => Session, (session) => session.user)
   sessions: SessionInterface[];
+
+  @OneToMany(() => Econfirmation, (confirmation) => confirmation.user)
+  emailConfirmations: EconfirmationInterface[];
 }

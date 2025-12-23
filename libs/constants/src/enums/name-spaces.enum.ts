@@ -8,4 +8,6 @@ export enum NameSpaces {
   Jwt = 'jwt',
   Redis = 'redis',
   RabbitMQ = 'rabbitmq',
+  UserEmail = 'user.email',
+  Confirmations = 'confirmations',
 }

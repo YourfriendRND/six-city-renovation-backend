@@ -6,3 +6,4 @@ export * from './comment.interface';
 export * from './file.interface';
 export * from './city.interface';
 export * from '../common/rpc-repsones.interface';
+export * from './econfirmation.interface';

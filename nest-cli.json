@@ -24,7 +24,14 @@
       "entryFile": "main",
       "sourceRoot": "apps/email-service/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/email-service/tsconfig.app.json"
+        "tsConfigPath": "apps/email-service/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "templates/**/*",
+            "outDir": "dist/apps/email-service/",
+            "watchAssets": true
+          }
+        ]
       }
     },
     "api-gateway": {

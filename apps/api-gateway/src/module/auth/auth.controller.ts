@@ -8,6 +8,7 @@ import {
   Inject,
   Res,
   Get,
+  Logger,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import {
@@ -40,6 +41,7 @@ import {
   UserLogin,
   AuthLogoutPayload,
   AuthRefreshPayload,
+  EconfirmationInterface,
 } from '@libs/types';
 import { JwtStrategies, JwtTokens } from '@libs/constants';
 import { BaseRpcController } from '../../types';
@@ -48,6 +50,7 @@ import { JWTGuard, UserRequest } from '../../decorators';
 @ApiTags('Регистрация/авторизация')
 @Controller('auth')
 export class AuthController extends BaseRpcController {
+  private readonly logger = new Logger(AuthController.name);
   constructor(
     protected readonly amqpConnection: AmqpConnection,
     private readonly httpAdapterHost: HttpAdapterHost,
@@ -77,6 +80,26 @@ export class AuthController extends BaseRpcController {
       dto,
     );
 
+    try {
+      const confirmationRequest = await this.makeRpcCall<EconfirmationInterface>(
+        'email_confirmation/create',
+        {
+          email: createdUser.email
+        }
+      );
+  
+      await this.makeRpcCall(
+        'mail/welcome',
+        {
+          email: createdUser.email,
+          name: createdUser.name,
+          token: confirmationRequest.token,
+        }
+      );
+    } catch (err) {
+      this.logger.error(`Error while create and send confirmation email to user: ${createdUser.email}`, err)
+    }
+    
     return fillResponseDto(SimplifiedUserRdo, createdUser);
   }
 
