@@ -29,9 +29,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
     "typeorm:clear-cache": "npm run typeorm cache:clear -- -d ./apps/core-service/src/data-source.ts",
-    "migration:generate": "npm run typeorm -- -d ./apps/core-service/src/data-source.ts migration:generate ./apps/core-service/src/migrations/$npm_config_name",
-    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./apps/core-service/src/data-source.ts",
-    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./apps/core-service/src/data-source.ts"
+    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d apps/core-service/src/data-source.ts apps/core-service/src/migrations/$npm_config_name",
+    "migration:run": "npm run build:core && typeorm -d dist/apps/core-service/apps/core-service/src/data-source.js migration:run",
+    "migration:revert": "npm run build:core && typeorm -d dist/apps/core-service/apps/core-service/src/data-source.js migration:revert"
   },
   "dependencies": {
     "@golevelup/nestjs-discovery": "^5.0.0",
